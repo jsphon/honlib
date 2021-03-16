@@ -8,8 +8,11 @@ class Node:
 
 
 class LinkedList:
+
+    node_class = Node
+
     def __init__(self):
-        sentinel = Node(v=None)
+        sentinel = self.node_class(v=None)
         self.first = sentinel
         self.last = sentinel
 
@@ -38,3 +41,32 @@ class LinkedList:
 
     def get_last_value(self):
         return self.last.v
+
+
+class DoublyLinkedListNode:
+    def __init__(self, v):
+        self.v = v
+        self.next = None
+        self.prev = None
+
+    def __repr__(self):
+        return f"<DoubledLinkedListNode value={self.v}>"
+
+
+class DoublyLinkedList(LinkedList):
+
+    node_class = DoublyLinkedListNode
+
+    def append(self, v):
+        if v != self.last.v:
+            new_node = self.node_class(v)
+            new_node.prev = self.last
+            self.last.next = new_node
+            self.last = new_node
+
+    def __reversed__(self):
+        node = self.last
+
+        while node.prev:
+            yield node
+            node = node.prev
